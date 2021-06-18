@@ -20,6 +20,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install build
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - run: ls
+    - run: pwd
+    - run: ls ..
     - name: build distributions
       run: python -m build
     - name: Publish a Python distribution to PyPI
