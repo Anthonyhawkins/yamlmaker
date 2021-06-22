@@ -1,5 +1,6 @@
 import inspect
 import os
+import subprocess
 import sys
 import yaml
 from yaml.parser import ParserError
@@ -35,7 +36,7 @@ def cmd(command):
     panic(f"Command `{command}` not found.")
 
   if completed.returncode > 0:
-    panic(f"Command `{command}` returned a none 0 status code.")
+    panic(f"Command `{command}` returned a non 0 status code.")
   return completed.stdout.decode('utf-8').rstrip()
 
 
@@ -59,10 +60,10 @@ class Sources(object):
           try:
             self.source_map[source_label]["data"] = yaml.load(file, Loader=yaml.FullLoader)
           except ParserError:
-            print("Error - {f} is Not valid YAML.".format(f=file_path))
+            panic(f"{file_path} is Not valid YAML.")
 
       except FileNotFoundError:
-        print("Error - {f} No Such File.".format(f=file_path))
+        panic(f"{file_path} No Such File.")
 
   def grab(self, source_label, path):
     """
@@ -71,7 +72,7 @@ class Sources(object):
     i.e. meta.endpoints.db
     """
     if source_label not in self.source_map:
-      print("Error - No Source with label {l} exists".format(l=source_label))
+      panic(f"No Source with label {source_label} exists")
       return None
 
     data = self.source_map[source_label]["data"]
@@ -83,14 +84,11 @@ class Sources(object):
     try:
       return eval("data" + dict_path)
     except SyntaxError:
-      print("Error - {p} is invalid syntax. Evaluated to {d}".format(p=path, d=dict_path))
-      sys.exit(1)
+      panic(f"{path} is invalid syntax. Evaluated to {dict_path}")
     except KeyError:
-      print("Error - {p} does not exist in file: {f}".format(p=path, f=file_path))
-      sys.exit(1)
+      panic(f"{path} does not exist in file: {file_path}")
     except IndexError:
-      print("Error - {p} index our of range in file: {f}".format(p=path, f=file_path))
-      sys.exit(1)
+      panic(f"{path} index our of range in file: {file_path}")
 
 
 class Files(object):
@@ -111,15 +109,14 @@ class Files(object):
         with open(r'{f}'.format(f=file_path)) as file:
           self.file_map[file_label]["text"] = file.read()
       except FileNotFoundError:
-        print("Error - {f} No Such File.".format(f=file_path))
+        panic(f"{file_path} No Such File.")
 
   def grab(self, file_label):
     """
     Method for grabbing the contnets of a file based on its label from the file_map
     """
     if file_label not in self.file_map:
-      print("Error - No File with label {l} exists".format(l=file_label))
-      return None
+      panic(f"No File with label {file_label} exists")
     return self.file_map[file_label]["text"]
 
 

@@ -1,5 +1,5 @@
 
-name: TestPyPi Publish
+name: Release Test
 on:
   push:
     branches:
