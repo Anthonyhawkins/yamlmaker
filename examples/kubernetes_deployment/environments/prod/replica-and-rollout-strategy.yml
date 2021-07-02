@@ -1,0 +1,7 @@
+meta:
+  replicas: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate

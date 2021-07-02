@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Services
+metadata:
+  name: s1-demo-app
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: s1-demo-app
