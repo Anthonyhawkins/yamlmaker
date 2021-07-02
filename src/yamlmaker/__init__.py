@@ -123,10 +123,14 @@ class Files(object):
 class Include(object):
   """
   Implementation of the if else statement to be used when conditionally
-  merging two dictionaries.
+  merging two dictionaries or lists.
   """
   @staticmethod
-  def when(expression, if_block, else_block={}):
+  def when(expression, if_block, else_block=""):
+    if if_block is list:
+      else_block = []
+    elif if_block is dict:
+      else_block = {}
     return if_block if expression else else_block
 
 
