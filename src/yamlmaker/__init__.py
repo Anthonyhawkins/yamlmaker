@@ -126,11 +126,14 @@ class Include(object):
   merging two dictionaries or lists.
   """
   @staticmethod
-  def when(expression, if_block, else_block=""):
-    if type(if_block) is list:
-      else_block = []
-    elif type(if_block) is dict:
-      else_block = {}
+  def when(expression, if_block, else_block=None):
+    if not else_block:
+      if type(if_block) is list:
+        else_block = []
+      elif type(if_block) is dict:
+        else_block = {}
+      else:
+        else_block = ""
     return if_block if expression else else_block
 
 

@@ -33,6 +33,6 @@ def test_include_not_in_list():
   config = [
     "foo",
     "bar"
-  ] + Include.when("z" == "x", "baz", [])
+  ] + Include.when("z" == "x", ["baz"])
   
   assert "baz" not in config
