@@ -47,7 +47,7 @@ class Sources(object):
 
   def __init__(self, sources):
     """
-    Creat a source mapping of labels to var data and original file path for each file.
+    Create a source mapping of labels to var data and original file path for each file.
     """
     self.source_map = {}
     for source_label, file_path in sources.items():
@@ -126,11 +126,14 @@ class Include(object):
   merging two dictionaries or lists.
   """
   @staticmethod
-  def when(expression, if_block, else_block=""):
-    if if_block is list:
-      else_block = []
-    elif if_block is dict:
-      else_block = {}
+  def when(expression, if_block, else_block=None):
+    if not else_block:
+      if type(if_block) is list:
+        else_block = []
+      elif type(if_block) is dict:
+        else_block = {}
+      else:
+        else_block = ""
     return if_block if expression else else_block
 
 
