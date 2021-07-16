@@ -68,7 +68,7 @@ class Sources(object):
   def grab(self, source_label, path):
     """
     Method for grabbing a var from a var source, via the label of the file
-    and the dot-deliminated path where the variable resides within the data.
+    and the dot-delimited path where the variable resides within the data.
     i.e. meta.endpoints.db
     """
     if source_label not in self.source_map:
@@ -97,7 +97,7 @@ class Files(object):
   """
   def __init__(self, files):
     """
-    Creat a file mapping of labels to file contents and original file path for each file.
+    Create a file mapping of labels to file contents and original file path for each file.
     """
     self.file_map = {}
     for file_label, file_path in files.items():

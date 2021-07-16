@@ -1,5 +1,5 @@
 
-name: Release Test
+name: Release to PyPI
 on:
   release:
     types: [published]
@@ -12,15 +12,28 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install build
+          pip install -r requirements.txt
+
+      - name: Test with PyTest
+        run: |
+          pip install pytest
+          export PYTHONPATH=$(pwd)
+          pytest -rA
+
       - name: Build package
-        run: python -m build
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+          password: ${{ secrets.PYPI_API_TOKEN }}
